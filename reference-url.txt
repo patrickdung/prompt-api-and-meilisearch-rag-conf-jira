@@ -1,0 +1,10 @@
+official doc
+- https://learn.microsoft.com/en-us/microsoft-edge/web-platform/prompt-api
+- https://developer.chrome.com/docs/ai/get-started
+- https://www.meilisearch.com/docs/capabilities/conversational_search/getting_started/setup
+
+code demo from git repos
+- https://github.com/QuentinMerle/webllm-vs-windowai
+- https://github.com/morrowsend/local_chome_ai
+- https://github.com/apratico/chrome-ai-playground
+- https://github.com/javaguru/on-device-internals

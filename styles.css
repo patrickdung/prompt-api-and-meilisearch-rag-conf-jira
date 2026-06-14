@@ -1,0 +1,254 @@
+/* Custom overrides for Tailwind gaps */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* Skeleton loader animation */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: 0.5rem;
+}
+
+/* Source card highlight animation */
+@keyframes highlightPulse {
+    0% { border-color: #3b82f6; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    50% { border-color: #60a5fa; box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+    100% { border-color: #3b82f6; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.source-card-highlight {
+    animation: highlightPulse 1.5s ease-in-out;
+    border-color: #3b82f6 !important;
+}
+
+/* Follow-up container spotlight animation */
+@keyframes followUpSpotlight {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6); border-color: #2563eb; }
+    50% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); border-color: #3b82f6; }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); border-color: #374151; }
+}
+
+.follow-up-spotlight {
+    animation: followUpSpotlight 1.2s ease-out;
+    border-color: #2563eb;
+}
+
+/* Citation link style */
+.citation-link {
+    color: #60a5fa;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+}
+
+.citation-link:hover {
+    color: #93c5fd;
+}
+
+/* Markdown code blocks in AI response */
+#aiResponse pre {
+    background: #1e1e2e;
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+}
+
+#aiResponse code {
+    background: #1e1e2e;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}
+
+#aiResponse pre code {
+    background: transparent;
+    padding: 0;
+}
+
+#aiResponse blockquote {
+    border-left: 3px solid #3b82f6;
+    padding-left: 1rem;
+    margin-left: 0;
+    color: #9ca3af;
+}
+
+#aiResponse ul, #aiResponse ol {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+#aiResponse li {
+    margin: 0.25rem 0;
+}
+
+#aiResponse p {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
+
+#aiResponse h1, #aiResponse h2, #aiResponse h3,
+#aiResponse h4, #aiResponse h5, #aiResponse h6 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* Loading bar */
+#loadingBar .h-1 {
+    width: 100%;
+}
+
+/* Source card hover effect */
+.source-card {
+    transition: all 0.2s ease;
+}
+
+.source-card:hover {
+    transform: translateX(4px);
+}
+
+/* Error toast animation */
+#errorToast {
+    transition: all 0.3s ease;
+}
+
+#errorToast.show {
+    display: block;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- MODEL DOWNLOAD PROGRESS BANNER --- */
+#modelStatusBanner {
+    transition: all 0.3s ease;
+}
+
+#modelStatusBanner:not(.hidden) {
+    display: block;
+}
+
+/* --- AI STREAMING TEXT STYLES --- */
+.ai-md-container {
+    line-height: 1.6;
+}
+
+.ai-md-container p {
+    margin: 0.5em 0;
+}
+
+.ai-md-container h1,
+.ai-md-container h2,
+.ai-md-container h3,
+.ai-md-container h4,
+.ai-md-container h5,
+.ai-md-container h6 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+}
+
+.ai-md-container ul,
+.ai-md-container ol {
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+}
+
+.ai-md-container li {
+    margin: 0.25em 0;
+}
+
+.ai-md-container code {
+    background: #1e1e2e;
+    padding: 0.15em 0.4em;
+    border-radius: 0.25em;
+    font-size: 0.875em;
+}
+
+.ai-md-container pre {
+    background: #1e1e2e;
+    border: 1px solid #374151;
+    border-radius: 0.5em;
+    padding: 1em;
+    overflow-x: auto;
+    margin: 0.75em 0;
+}
+
+.ai-md-container pre code {
+    background: transparent;
+    padding: 0;
+}
+
+.ai-md-container blockquote {
+    border-left: 3px solid #3b82f6;
+    padding-left: 1em;
+    margin-left: 0;
+    color: #9ca3af;
+}
+
+/* Smooth text appearance during streaming */
+.ai-md-container * {
+    animation: fadeIn 0.1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+
+/* Follow-up spotlight for Meilisearch chat */
+@keyframes followUpSpotlight {
+    0% {
+        border-color: rgba(59, 130, 246, 0.25);
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3);
+        background: rgba(30, 41, 59, 0.2);
+    }
+    50% {
+        border-color: rgba(96, 165, 250, 0.8);
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+        background: rgba(30, 64, 175, 0.12);
+    }
+    100% {
+        border-color: rgba(59, 130, 246, 0.25);
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+        background: rgba(30, 41, 59, 0.2);
+    }
+}
+
+#followUpContainer.follow-up-spotlight {
+    animation: followUpSpotlight 2.2s ease-out;
+}

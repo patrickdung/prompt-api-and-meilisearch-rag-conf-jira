@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki & JIRA RAG Search</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Top: Sticky Search Bar -->
+    <header class="sticky top-0 z-50 bg-gray-800 border-b border-gray-700 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center gap-4">
+                <h1 class="text-xl font-bold text-blue-400 shrink-0">Wiki & JIRA RAG</h1>
+                <form id="searchForm" class="flex-1 flex gap-2">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Ask a question about your wiki..."
+                        class="flex-1 px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        autocomplete="off"
+                    >
+                    <button
+                        type="submit"
+                        id="searchBtn"
+                        class="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium transition-colors"
+                    >
+                        Search
+                    </button>
+                </form>
+                <div id="aiModeContainer" class="shrink-0">
+                    <div class="flex items-center gap-2 border border-gray-600 rounded-lg px-3 py-1.5 bg-gray-700/50">
+                        <span class="text-gray-300 text-xs font-semibold uppercase tracking-wider">AI Mode:</span>
+                        <select id="aiModeSelect"
+                                class="text-xs bg-gray-800 border border-gray-600 rounded px-2 py-1 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="prompt-api">On-Device AI (Prompt API)</option>
+                            <option value="meilisearch-chat">Meilisearch Conversation Search</option>
+                        </select>
+                        <span id="aiModeBadge" class="text-[10px] font-medium px-2 py-0.5 rounded bg-green-600 text-white">On-Device AI</span>
+                    </div>
+                </div>
+                <div id="apiStatus" class="text-xs text-gray-400 shrink-0">
+                    Mode: On-Device AI
+                </div>
+            </div>
+            <div id="chatModeHint" class="hidden mt-2 text-xs text-blue-300">
+                Meilisearch Conversation Search: the follow-up input appears below the AI answer after the first response.
+            </div>
+            <div id="loadingBar" class="hidden mt-2">
+                <div class="h-1 bg-blue-600 rounded animate-pulse"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main: Split Pane Layout -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full">
+
+            <!-- Left Column (40%): AI Response -->
+            <section class="lg:col-span-2 flex flex-col gap-4">
+                <!-- Model status banner -->
+                <div id="modelStatusBanner" class="hidden bg-blue-900/30 border border-blue-700 rounded-lg p-3 mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                        <div class="flex-1">
+                            <p class="text-sm text-blue-300 font-medium" id="modelStatusText">Loading AI model...</p>
+                            <div class="w-full bg-gray-700 rounded-full h-1.5 mt-1.5">
+                                <div id="modelProgressBar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-xl border border-gray-700 p-6 min-h-[400px] flex flex-col">
+                    <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">AI Answer</h2>
+                    <div id="aiResponse" class="prose prose-invert max-w-none flex-1">
+                        <p class="text-gray-500 italic">Enter a question above to get an AI-powered answer based on your wiki documents.</p>
+                    </div>
+                </div>
+
+                <!-- Follow-up input (hidden by default, shown in chat mode after first answer) -->
+                <div id="followUpContainer" class="hidden mt-4 pt-4 border-t border-gray-700">
+                    <div class="mb-2">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-blue-300">Continue This Chat</p>
+                        <p class="text-xs text-gray-400">Ask a follow-up about the same topic, or start a new conversation to reset context.</p>
+                    </div>
+                    <form id="followUpForm" class="flex gap-2">
+                        <input
+                            type="text"
+                            id="followUpInput"
+                            placeholder="Ask a follow-up question..."
+                            class="flex-1 px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            autocomplete="off"
+                        >
+                        <button
+                            type="submit"
+                            class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-colors"
+                        >
+                            Send
+                        </button>
+                    </form>
+                    <button id="newChatBtn" class="mt-2 text-xs text-gray-500 hover:text-gray-300 underline" title="Clear conversation history and start fresh">
+                        Start new conversation ↺
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Column (60%): Source Documents -->
+            <section class="lg:col-span-3 flex flex-col gap-4">
+                <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
+                    <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Source Documents</h2>
+                    <div id="sourceDocs" class="flex flex-col gap-3">
+                        <!-- Document cards rendered here -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Error Toast -->
+    <div id="errorToast" class="fixed bottom-4 right-4 hidden bg-red-900/90 border border-red-700 text-red-100 px-4 py-3 rounded-lg shadow-xl max-w-md">
+        <span id="errorText"></span>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/config.js?v=19"></script>
+    <script type="module" src="js/api.js?v=19"></script>
+    <script type="module" src="js/ui.js?v=19"></script>
+    <script type="module" src="js/app.js?v=19"></script>
+</body>
+</html>

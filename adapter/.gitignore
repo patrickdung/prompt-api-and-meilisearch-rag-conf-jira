@@ -1,0 +1,106 @@
+**/.git
+**/.hg
+**/.svn
+**/CVS
+**/target
+
+# Vim
+# ====
+.*swp
+.*.sw*
+*~
+
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+# ====
+
+~$*
+**/.DS_Store
+.idea/*
+**/.idea
+
+.vscode/*
+**/.vscode
+*.code-workspace
+
+# =========
+# Python
+__pycache__
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+# =========
+
+# =========
+# Terraform
+# =========
+# Local .terraform directories
+**/.terraform/*
+
+.terragrunt-cache
+**/..terragrunt-cache
+**/.terragrunt-cache/
+**/..terragrunt-cache/*
+
+.terraform.lock.hcl
+**/.terraform.lock.hcl
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+#crash.log
+
+# Exclude all .tfvars files, which are likely to contain sentitive data, such as
+# password, private keys, and other secrets. These should not be part of version
+# control as they are data points which are potentially sensitive and subject
+# to change depending on the environment.
+#
+## Include tfvars, it would be saved in internal Git repo for IaC
+##*.tfvars
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Include override files you do wish to add to version control using negated pattern
+#
+# !example_override.tf
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
+*.tfplan
+*.tfplan.*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# kubeconfig_cluster-name
+# kubeconfig_*
+
+# ==========
+# End of Terraform
+# ==========
+
+# ========
+# Ansible
+# =======
+.vaultpass
+secret
+*.secret
+
+# We don't want to ignore the following even if they are dot-files
+#
+!.gitattributes
+!.gitignore
+
