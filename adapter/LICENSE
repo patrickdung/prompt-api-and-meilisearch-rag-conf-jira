@@ -1,0 +1,18 @@
+# License
+
+This part of the adapter code is based on https://github.com/meilisearch/meilisearch/issues/5684 and AI.
+To my understanding, this work should fall into Meilisearch MIT license instead of Meiliseach EE/BUSL license.
+I am not a lawyer, please check the implications of using these code.
+
+Reference:
+https://www.meilisearch.com/docs/resources/self_hosting/enterprise_edition
+
+# License
+
+Copyright (c) 2019-2025 Meili SAS
+
+Part of this work fall under the Meilisearch Enterprise Edition (EE) and are licensed under the Business Source License 1.1, please refer to [LICENSE-EE](./LICENSE-EE) for details.
+
+The other parts of this work are licensed under the [MIT license](./LICENSE-MIT).
+
+`SPDX-License-Identifier: MIT AND BUSL-1.1`
